@@ -28,4 +28,4 @@ COPY src src
 RUN ./mvnw package -DskipTests
 
 # Specify the start command and entry point of the Spring Boot application
-ENTRYPOINT ["java","-jar","/app/target/app-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","/app/target/test-kibana-0.0.1-SNAPSHOT.jar"]

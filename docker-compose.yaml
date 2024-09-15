@@ -10,14 +10,6 @@ volumes:
   logstash_pipeline:
 
 services:
-  discovery-service:
-    image: ion21/newdiscovery:01.07.2024.14.39.29
-    networks:
-      - mynet
-    ports:
-      - "8761:8761"
-    environment:
-      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
 
   mysql:
     image: mysql:5.7
@@ -36,18 +28,16 @@ services:
       retries: 1
 
   test-service:
-    image: ion21/query-service:09.09.2024.11.02.41
+    image: ion21/test-kibana:latest
     networks:
       - mynet
     environment:
-      SPRING_PROFILES_ACTIVE: docker
+#      SPRING_PROFILES_ACTIVE: docker
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
     ports:
-      - "8082:8082"
+      - "3000:3000"
     depends_on:
-      discovery-service:
-        condition: service_started
-      zipkin:
+        zipkin:
         condition: service_started
 
   zipkin:

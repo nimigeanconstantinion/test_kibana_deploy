@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ro.mycode</groupId>
-	<artifactId>user-car</artifactId>
+	<artifactId>test-kibana</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>user-car</name>
-	<description>user-car</description>
+	<name>test-kibana</name>
+	<description>test-kibana</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
