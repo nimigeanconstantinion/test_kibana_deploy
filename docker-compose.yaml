@@ -32,12 +32,14 @@ services:
     networks:
       - mynet
     environment:
-#      SPRING_PROFILES_ACTIVE: docker
+      SPRING_PROFILES_ACTIVE: docker
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
     ports:
       - "3000:3000"
     depends_on:
-        zipkin:
+      mysql:
+        condition: service_healthy
+      zipkin:
         condition: service_started
 
   zipkin:
@@ -118,6 +120,6 @@ services:
       - ELASTIC_HOSTS=http://elasticsearch:9200
     volumes:
       - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-      - C:/Users/40722/Desktop/projects/micro-services-1/logs:/usr/share/logstash/logs
+      - C:/Users/40722/Desktop/projects/test deployment kibana/cats_api-task3/logs:/usr/share/logstash/logs
 
 #      - C:/Users/40722/Desktop/projects/micro-services-1/command-service/logs:/usr/share/logstash/logs
