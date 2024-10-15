@@ -8,7 +8,7 @@ LABEL description="Docker image for nserver-service Spring Boot application"
 
 # Set the current working directory inside the image
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 3000
 # Copy maven executable to the image
 COPY mvnw .
 COPY .mvn .mvn

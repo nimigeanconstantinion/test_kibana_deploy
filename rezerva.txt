@@ -1,0 +1,158 @@
+
+
+#
+#
+#networks:
+#  kibana-net:
+#    driver: bridge
+#
+#volumes:
+#  data_kibana:
+#    driver: local
+##
+##  es_data:
+##  logstash_pipeline:
+#
+#services:
+#  mysql:
+#    container_name: mysql
+#    image: mysql:5.7
+#    volumes:
+#      - data_kibana:/var/lib/mysql
+#    environment:
+#      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+#      - MYSQL_DATABASE=cats_db
+#      - MYSQL_ROOT_PASSWORD=root
+#      - MYSQL_USER=kibana_user
+#      - MYSQL_PASSWORD=kibana_password
+#    ports:
+#      - "3307:3306"
+##    command: >
+##      bash -c "echo \"GRANT ALL PRIVILEGES ON . TO 'kibana_user'@'%' IDENTIFIED BY 'kibana_password'; FLUSH PRIVILEGES;\" | mysqld --lower_case_table_names=1 --skip-ssl --bind-address=0.0.0.0"
+#    networks:
+#      - kibana-net
+##    command: mysqld --lower_case_table_names=1 --skip-ssl
+#
+#    restart: always # Automatically restart the container if it crashes
+#
+##    restart: always
+#
+#  test-service:
+#    image: ion21/test-kibana:latest
+#    networks:
+#      - kibana-net
+#    environment:
+#      SPRING_PROFILES_ACTIVE: docker
+#      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+#    ports:
+#      - "3000:3000"
+#    depends_on:
+#      mysql:
+#        condition: service_started
+##      zipkin:
+##        condition: service_started
+#
+##  zipkin:
+##    image: openzipkin/zipkin
+##    container_name: zipkin
+##    networks:
+##      - kibana-net
+##    ports:
+##      - "9411:9411"
+##    healthcheck:
+##      test: ["CMD-SHELL", "curl -f http://localhost:9411/health || exit 1"]
+##      interval: 30s
+##      timeout: 10s
+##
+##  setup:
+##    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.1
+##    environment:
+##      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+##      - KIBANA_PASSWORD=${KIBANA_PASSWORD}
+##    container_name: setup
+##    command:
+##      - bash
+##      - -c
+##      - |
+##        echo "Waiting for Elasticsearch availability";
+##        until curl -s http://elasticsearch:9200 | grep -q "missing authentication credentials"; do sleep 30; done;
+##        echo "Setting kibana_system password";
+##        until curl -s -X POST -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" http://elasticsearch:9200/_security/user/kibana_system/_password -d "{\"password\":\"${KIBANA_PASSWORD}\"}" | grep -q "^{}"; do sleep 10; done;
+##        echo "All done!";
+##
+##
+##
+##  elasticsearch:
+##    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.1
+##    container_name: elasticsearch
+##    environment:
+##      - discovery.type=single-node
+##      - cluster.name=elasticsearch
+##      - bootstrap.memory_lock=true
+##      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+##      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+##      - xpack.security.http.ssl.enabled=false
+##
+##  kibana:
+##    image: docker.elastic.co/kibana/kibana:8.12.1
+##    container_name: kibana
+##    ports:
+##      - 5601:5601
+##    environment:
+##      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+##      - ELASTICSEARCH_USERNAME=kibana_system
+##      - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
+##      - TELEMETRY_ENABLED=false
+##
+##  logstash:
+##    image: docker.elastic.co/logstash/logstash:8.12.1
+##    container_name: logstash
+##    command:
+##      - /bin/bash
+##      - -c
+##      - |
+##        cp /usr/share/logstash/pipeline/logstash.yml /usr/share/logstash/config/logstash.yml
+##        echo "Waiting for Elasticsearch availability";
+##        until curl -s http://elasticsearch:9200 | grep -q "missing authentication credentials"; do sleep 1; done;
+##        echo "Starting logstash";
+##        /usr/share/logstash/bin/logstash -f /usr/share/logstash/pipeline/logstash.conf
+##    environment:
+##      - xpack.monitoring.enabled=false
+##      - ELASTIC_USER=elastic
+##      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+##      - ELASTIC_HOSTS=http://elasticsearch:9200
+##    volumes:
+##      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+##      - C:/Users/40722/Desktop/projects/test deployment kibana/cats_api-task3/logs:/usr/share/logstash/logs
+#
+##services:
+##  mysql:
+###    container_name: mycode-mysql
+##    image: mysql:5.7 # Using MySQL 5.7 to match the database files version
+##    volumes:
+##      - vol_kibana:/var/lib/mysql
+###      - ./my.cnf:/etc/mysql/my.cnf # Custom my.cnf file for configuration
+##    environment:
+##      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+##      - MYSQL_ROOT_PASSWORD=root
+###      - MYSQL_DATABASE=mycode_database
+##      - MYSQL_USER=kibana_user
+##      - MYSQL_PASSWORD=kibana_password
+##    ports:
+##      - "3307:3306"
+##    command: mysqld --lower_case_table_names=1 --skip-ssl
+##    networks:
+##      - mynet
+##    restart: always # Automatically restart the container if it crashes
+##
+##
+##
+##networks:
+##  mynet:
+##
+##volumes:
+##  vol_kibana:
+##    driver: local
+
+#version: '2'
+
