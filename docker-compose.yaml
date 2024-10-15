@@ -1,41 +1,43 @@
+version: '3.8'
+
 networks:
   myappnetwork:
     driver: bridge
 
-
 volumes:
   volume_data:
     driver: local
-  kibana_data: # Definirea volumului
+  kibana_data:
   es_data:
   logstash_pipeline:
   prometheus_data:
+  grafana_data:
+  grafana_provisioning:
+    driver: local
 
 x-variables:
   elastic_password: &elastic_password 'passwOrd'
   kibana_password: &kibana_password 'passwOrd'
 
-
 services:
   mysql:
     container_name: mysql-container
-    image: mysql:5.7 # Using MySQL 5.7 to match the database files version
+    image: mysql:5.7
     volumes:
       - volume_data:/var/lib/mysql
-      - ./my.cnf:/etc/mysql/my.cnf # Custom my.cnf file for configuration
+      - ./my.cnf:/etc/mysql/my.cnf
     environment:
       MYSQL_DATABASE: cats_db
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3307:3306"
-#    command: mysqld --lower_case_table_names=1 --skip-ssl
     networks:
       - myappnetwork
-    restart: always # Automatically restart the container if it crashes
+    restart: always
 
   service:
     container_name: service-container
-    image: "ion21/test-kibana:v4"
+    image: "ion21/test-kibana:v5"
     ports:
       - "3100:3100"
     restart: always
@@ -101,7 +103,7 @@ services:
     depends_on:
       - elasticsearch
     volumes:
-      - kibana_data:/usr/share/kibana/data # Montează volumul pentru datele Kibana
+      - kibana_data:/usr/share/kibana/data
 
   logstash:
     image: docker.elastic.co/logstash/logstash:8.12.1
@@ -150,13 +152,11 @@ services:
     networks:
       - myappnetwork
 
-
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
     volumes:
       - prometheus_data:/prometheus
-
     environment:
       PROMETHEUS_CONFIG: |
         global:
@@ -174,12 +174,43 @@ services:
       - |
         echo "$${PROMETHEUS_CONFIG}" > /etc/prometheus/prometheus.yml
         /bin/prometheus --config.file=/etc/prometheus/prometheus.yml
-
     ports:
       - '9090:9090'
     depends_on:
       - service
-
     networks:
       - myappnetwork
 
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3200:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=secret
+    depends_on:
+      - prometheus
+    networks:
+      - myappnetwork
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - grafana_provisioning:/etc/grafana/provisioning
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        mkdir -p /etc/grafana/provisioning/datasources
+        mkdir -p /etc/grafana/provisioning/dashboards
+        echo '
+        apiVersion: 1
+
+        datasources:
+          - name: Prometheus
+            type: prometheus
+            access: proxy
+            isDefault: true
+            url: http://prometheus:9090
+            version: 1
+            editable: false
+        ' > /etc/grafana/provisioning/datasources/datasource.yml
+        /run.sh

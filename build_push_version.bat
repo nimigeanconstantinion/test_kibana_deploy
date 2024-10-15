@@ -21,5 +21,6 @@ docker tag test-kibana:%SERVICE_VERSION%  ion21/test-kibana:%SERVICE_VERSION%
 echo Pushing the tagged image...
 docker push  ion21/test-kibana:%SERVICE_VERSION%
 
+
 echo Script completed.
 pause
