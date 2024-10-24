@@ -1,2 +1,2 @@
 @echo off
-set SERVICE_VERSION=v5
+set SERVICE_VERSION=v6

@@ -1,6 +1,9 @@
 package ro.mycode.crudapp.Cats.service;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.stereotype.Service;
 import ro.mycode.crudapp.Cats.dtos.CreateCatResponse;
 import ro.mycode.crudapp.Cats.dtos.CreateCatRequest;
@@ -12,27 +15,48 @@ import ro.mycode.crudapp.Cats.exceptions.CatListEmpty;
 import ro.mycode.crudapp.Cats.exceptions.NoUpdate;
 import ro.mycode.crudapp.Cats.models.Cat;
 import ro.mycode.crudapp.Cats.repository.CatRepo;
+import ro.mycode.crudapp.Cats.system.logs.StructuredLogger;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
+@Slf4j
+@AllArgsConstructor
 public class CatService {
 
-    private CatRepo catRepo;
+    private final CatRepo catRepo;
+    private final StructuredLogger logger ;
 
 
 
 
-    public CatService(CatRepo catRepo) {
-        this.catRepo = catRepo;
-    }
+//    public CatService(CatRepo catRepo) {
+//        this.catRepo = catRepo;
+//    }
 
+    @ReadOnlyProperty
     public List<Cat> getAllCats() {
         List<Cat> all = catRepo.findAll();
         if (all.size() == 0) {
+            logger.logBuilder()
+                    .withMessage("FAIL GET ALL CATS")
+                    .withField("sizeList", 0)
+                    .withLevel("ERROR")
+                    .log();
             throw new CatListEmpty();
         }
+
+        logger.logBuilder()
+                .withMessage("GET ALL CATS")
+                .withField("firstCat", all.get(0))
+                .withField("firstCatRasa", all.get(0).getRasa())
+                .withField("firstCatAge", all.get(0).getVarsta())
+                .withField("sizeList", all.size())
+                .withLevel("INFO")
+                .log();
+
         return all;
     }
 
@@ -43,6 +67,7 @@ public class CatService {
 
         Optional<Cat> makeupByMarca = catRepo.findCatByRasa(createCatRequest.getNumeStapan());
         if (makeupByMarca.isPresent()) {
+
 
             throw new CatExist();
         }

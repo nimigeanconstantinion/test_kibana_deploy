@@ -28,12 +28,11 @@
                 <message>
                     <fieldName>message</fieldName>
                 </message>
-                <logstashMarkers>
-                    <fieldName>markers</fieldName>
-                </logstashMarkers>
                 <mdc>
                     <fieldName>mdc</fieldName>
-                    <includeMdcKeyName>*</includeMdcKeyName>
+                    <includeMdcKeyName>traceId</includeMdcKeyName>
+                    <includeMdcKeyName>spanId</includeMdcKeyName>
+                    <includeMdcKeyName>userId</includeMdcKeyName>
                 </mdc>
                 <arguments>
                     <fieldName>args</fieldName>
@@ -74,12 +73,11 @@
                 <message>
                     <fieldName>message</fieldName>
                 </message>
-                <logstashMarkers>
-                    <fieldName>markers</fieldName>
-                </logstashMarkers>
                 <mdc>
                     <fieldName>mdc</fieldName>
-                    <includeMdcKeyName>*</includeMdcKeyName>
+                    <includeMdcKeyName>traceId</includeMdcKeyName>
+                    <includeMdcKeyName>spanId</includeMdcKeyName>
+                    <includeMdcKeyName>userId</includeMdcKeyName>
                 </mdc>
                 <arguments>
                     <fieldName>args</fieldName>
@@ -116,12 +114,11 @@
                 <message>
                     <fieldName>message</fieldName>
                 </message>
-                <logstashMarkers>
-                    <fieldName>markers</fieldName>
-                </logstashMarkers>
                 <mdc>
                     <fieldName>mdc</fieldName>
-                    <includeMdcKeyName>*</includeMdcKeyName>
+                    <includeMdcKeyName>traceId</includeMdcKeyName>
+                    <includeMdcKeyName>spanId</includeMdcKeyName>
+                    <includeMdcKeyName>userId</includeMdcKeyName>
                 </mdc>
                 <arguments>
                     <fieldName>args</fieldName>
