@@ -5,14 +5,14 @@ networks:
     driver: bridge
 
 volumes:
-  volume_data:
+  volume_data_test:
     driver: local
-  kibana_data:
-  es_data:
+  kibana_data_test:
+  es_data_test:
   logstash_pipeline:
-  prometheus_data:
-  grafana_data:
-  grafana_provisioning:
+  prometheus_data_test:
+  grafana_data_test:
+  grafana_provisioning_test:
     driver: local
 
 x-variables:
@@ -24,7 +24,7 @@ services:
     container_name: mysql-container
     image: mysql:5.7
     volumes:
-      - volume_data:/var/lib/mysql
+      - volume_data_test:/var/lib/mysql
       - ./my.cnf:/etc/mysql/my.cnf
     environment:
       MYSQL_DATABASE: cats_db
@@ -37,7 +37,7 @@ services:
 
   service:
     container_name: service-container
-    image: "ion21/test-kibana:v5"
+    image: "ion21/test-kibana:v6"
     ports:
       - "3100:3100"
     restart: always
@@ -86,7 +86,7 @@ services:
       timeout: 10s
       retries: 5
     volumes:
-      - es_data:/usr/share/elasticsearch/data
+      - es_data_test:/usr/share/elasticsearch/data
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.12.1
@@ -103,7 +103,7 @@ services:
     depends_on:
       - elasticsearch
     volumes:
-      - kibana_data:/usr/share/kibana/data
+      - kibana_data_test:/usr/share/kibana/data
 
   logstash:
     image: docker.elastic.co/logstash/logstash:8.12.1
@@ -156,7 +156,7 @@ services:
     image: prom/prometheus:latest
     container_name: prometheus
     volumes:
-      - prometheus_data:/prometheus
+      - prometheus_data_test:/prometheus
     environment:
       PROMETHEUS_CONFIG: |
         global:
@@ -193,8 +193,8 @@ services:
     networks:
       - myappnetwork
     volumes:
-      - grafana_data:/var/lib/grafana
-      - grafana_provisioning:/etc/grafana/provisioning
+      - grafana_data_test:/var/lib/grafana
+      - grafana_provisioning_test:/etc/grafana/provisioning
     entrypoint:
       - /bin/sh
       - -c
