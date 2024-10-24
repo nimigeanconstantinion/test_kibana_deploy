@@ -37,7 +37,7 @@ services:
 
   service:
     container_name: service-container
-    image: "ion21/test-kibana:v6"
+    image: "ion21/test-kibana:v9"
     ports:
       - "3100:3100"
     restart: always

@@ -1,14 +1,16 @@
 package ro.mycode.crudapp.Cats.system.logs;
 
-
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import net.logstash.logback.marker.LogstashMarker;
 import net.logstash.logback.marker.Markers;
-import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
+
+
+
+import java.util.HashMap;
 
 @Slf4j
 @Component

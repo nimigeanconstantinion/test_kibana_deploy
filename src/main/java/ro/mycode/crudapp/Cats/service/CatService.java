@@ -3,6 +3,7 @@ package ro.mycode.crudapp.Cats.service;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.stereotype.Service;
 import ro.mycode.crudapp.Cats.dtos.CreateCatResponse;
@@ -27,13 +28,15 @@ import java.util.Optional;
 public class CatService {
 
     private final CatRepo catRepo;
+    @Autowired
     private final StructuredLogger logger ;
 
-
-
-
-//    public CatService(CatRepo catRepo) {
+//
+//
+//
+//    public CatService(CatRepo catRepo,StructuredLogger logger) {
 //        this.catRepo = catRepo;
+//        this.logger=logger;
 //    }
 
     @ReadOnlyProperty
@@ -54,7 +57,6 @@ public class CatService {
                 .withField("firstCatRasa", all.get(0).getRasa())
                 .withField("firstCatAge", all.get(0).getVarsta())
                 .withField("sizeList", all.size())
-                .withLevel("INFO")
                 .log();
 
         return all;
