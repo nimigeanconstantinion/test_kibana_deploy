@@ -24,6 +24,10 @@ public class Cat implements Comparable<Cat> {
     private int varsta;
 
 
+
+    public String toString(){
+        return this.rasa+";"+this.numeStapan;
+    }
     @Override
     public int compareTo(Cat o) {
         return 0;

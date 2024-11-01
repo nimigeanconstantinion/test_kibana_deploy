@@ -1,8 +1,11 @@
 package ro.mycode.crudapp.Cats.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.stereotype.Service;
@@ -31,33 +34,30 @@ public class CatService {
     @Autowired
     private final StructuredLogger logger ;
 
-//
-//
-//
-//    public CatService(CatRepo catRepo,StructuredLogger logger) {
-//        this.catRepo = catRepo;
-//        this.logger=logger;
-//    }
 
     @ReadOnlyProperty
-    public List<Cat> getAllCats() {
+    public List<Cat> getAllCats(){
         List<Cat> all = catRepo.findAll();
         if (all.size() == 0) {
+
+
             logger.logBuilder()
                     .withMessage("FAIL GET ALL CATS")
                     .withField("sizeList", 0)
                     .withLevel("ERROR")
                     .log();
-            throw new CatListEmpty();
+            return all;
+        }else{
+            logger.logBuilder()
+                    .withMessage("GET ALL CATS")
+                    .withField("firstCat", all.get(0))
+                    .withField("firstCatRasa", all.get(0).getRasa())
+                    .withField("firstCatAge", all.get(0).getVarsta())
+                    .withField("sizeList", all.size())
+                    .log();
+
         }
 
-        logger.logBuilder()
-                .withMessage("GET ALL CATS")
-                .withField("firstCat", all.get(0))
-                .withField("firstCatRasa", all.get(0).getRasa())
-                .withField("firstCatAge", all.get(0).getVarsta())
-                .withField("sizeList", all.size())
-                .log();
 
         return all;
     }

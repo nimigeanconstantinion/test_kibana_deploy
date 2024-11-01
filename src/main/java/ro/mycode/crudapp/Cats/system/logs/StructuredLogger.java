@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import net.logstash.logback.marker.LogstashMarker;
 import net.logstash.logback.marker.Markers;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -15,7 +16,9 @@ import java.util.HashMap;
 @Slf4j
 @Component
 public class StructuredLogger {
-    Logger logger;
+//    Logger logger;
+    Logger logger = LoggerFactory.getLogger(StructuredLogger.class);
+
     public StructuredLogger() {
     }
 
